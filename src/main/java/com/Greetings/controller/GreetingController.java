@@ -4,6 +4,8 @@ import com.Greetings.model.Greeting;
 import com.Greetings.service.GreetingService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/greeting")
 public class GreetingController {
@@ -24,13 +26,19 @@ public class GreetingController {
         return greetingService.getGreetingById(id);
     }
 
-    @GetMapping("/all")
-    public Iterable<Greeting> getAllGreetings() {
-        return greetingService.getAllGreetings();
-    }
-
     @PutMapping("/{id}")
     public Greeting updateGreeting(@PathVariable Long id, @RequestParam String newMessage) {
         return greetingService.updateGreeting(id, newMessage);
+    }
+
+
+    @DeleteMapping("/{id}")
+    public String deleteGreeting(@PathVariable Long id) {
+        boolean isDeleted = greetingService.deleteGreeting(id);
+        if (isDeleted) {
+            return "Greeting with ID " + id + " deleted successfully.";
+        } else {
+            return "Greeting with ID " + id + " not found.";
+        }
     }
 }
