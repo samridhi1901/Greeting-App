@@ -1,5 +1,4 @@
 package com.Greetings.config;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,7 +15,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Disable CSRF for APIs
+                .csrf(csrf -> csrf.disable()) // Disable CSRF for API requests
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/auth/register",
@@ -25,8 +24,7 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui.html"
-                        ).permitAll() // Allow public access to authentication & Swagger
-                        .requestMatchers("OPTIONS", "/**").permitAll() // Allow CORS preflight requests
+                        ).permitAll() // Allow public access to Swagger
                         .anyRequest().authenticated() // Secure other endpoints
                 )
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())) // Allow H2 Console iframes
@@ -41,9 +39,9 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }
