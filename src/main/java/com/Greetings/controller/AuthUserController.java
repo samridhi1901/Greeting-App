@@ -5,13 +5,15 @@ import com.Greetings.dto.AuthUserDTO;
 import com.Greetings.dto.LoginDTO;
 import com.Greetings.service.AuthenticationService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthUserController {
-    private final AuthenticationService authenticationService;
+    @Autowired
+    AuthenticationService authenticationService;
 
     public AuthUserController(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
